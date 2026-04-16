@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub | Detalhes do Jogo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="detalhes-page">
+    <div class="page-transition" id="transition"></div>
+
+    <header>
+        <div class="logo">🎮 GameHub</div>
+        <nav><a href="index.html" class="btn-voltar">← Voltar para a Galeria</a></nav>
+    </header>
+
+    <main class="container">
+        <div id="loading-detalhes" class="empty-state">
+            <div class="skeleton" style="height: 400px; border-radius: 20px;"></div>
+            <p>A carregar informações do mundo dos games...</p>
+        </div>
+
+        <div id="conteudo-detalhes" class="fade-in" style="display: none;">
+            <div class="detalhes-grid">
+                <div class="detalhes-media">
+                    <div id="media-container"></div>
+                    <div class="tags-container" id="jogo-tags" style="margin-top: 20px;"></div>
+                </div>
+
+                <div class="detalhes-info">
+                    <h1 id="jogo-titulo"></h1>
+                    <div class="rating-badge">⭐ <span id="jogo-nota"></span></div>
+                    
+                    <div class="secao-desc">
+                        <h3>Sobre o Jogo</h3>
+                        <div id="jogo-descricao" class="text-dim"></div>
+                    </div>
+
+                    <div class="info-adicional">
+                        <p><strong>Desenvolvedora:</strong> <span id="jogo-dev"></span></p>
+                        <p><strong>Lançamento:</strong> <span id="jogo-data"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+const API_KEY = "024afecf82ca46fe8dc60e2c6c14ea29";
+const params = new URLSearchParams(window.location.search);
+const jogoId = params.get('id');
+
+async function buscarDetalhes() {
+    if (!jogoId) {
+        window.location.href = 'index.html';
+        return;
+    }
+
+    try {
+        const res = await fetch(`https://api.rawg.io/api/games/${jogoId}?key=${API_KEY}`);
+        const jogo = await res.json();
+
+        document.getElementById('jogo-titulo').innerText = jogo.name;
+        document.getElementById('jogo-nota').innerText = jogo.rating || "N/A";
+        document.getElementById('jogo-descricao').innerHTML = jogo.description || "Sem descrição.";
+
+        document.getElementById('jogo-dev').innerText =
+            jogo.developers?.map(d => d.name).join(', ') || "Independente";
+
+        const dataLancamento = jogo.released
+            ? new Date(jogo.released).toLocaleDateString('pt-BR')
+            : "Desconhecido";
+
+        document.getElementById('jogo-data').innerText = dataLancamento;
+
+        const mediaContainer = document.getElementById('media-container');
+        mediaContainer.innerHTML = `
+            <img src="${jogo.background_image_additional || jogo.background_image}" 
+                 alt="${jogo.name}"
+                 style="width:100%; border-radius:20px;">
+        `;
+
+        const tagsContainer = document.getElementById('jogo-tags');
+        tagsContainer.innerHTML = jogo.genres?.map(g => `
+            <span class="btn-filtro" style="margin-right: 5px; pointer-events: none; display: inline-block; margin-bottom: 5px;">${g.name}</span>
+        `).join('') || "";
+
+        document.getElementById('loading-detalhes').style.display = 'none';
+        document.getElementById('conteudo-detalhes').style.display = 'block';
+        document.body.classList.add('loaded');
+
+    } catch (error) {
+        console.error("Erro ao carregar:", error);
+        document.getElementById('loading-detalhes').innerHTML = `
+            <h2 style="color: #ef4444;">Ops! Jogo não encontrado.</h2>
+            <a href="index.html" style="color: white; margin-top: 20px; display: block;">Voltar para o início</a>
+        `;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', buscarDetalhes);
+
+document.querySelector('.btn-voltar').addEventListener('click', function(e) {
+    e.preventDefault();
+    const transition = document.getElementById('transition');
+    transition.classList.add('active');
+    setTimeout(() => { window.location.href = this.href; }, 400);
+});
+</script>
+</body>
+</html>

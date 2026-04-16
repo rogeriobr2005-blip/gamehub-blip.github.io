@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-transition" id="transition"></div>
+
+    <header>
+        <div class="logo">🎮 GameHub</div>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#jogos">Jogos</a>
+            <a href="#favoritos">Favoritos</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Descubra novos mundos</h1>
+            <p>Explore os melhores títulos do mundo dos games.</p>
+            <div class="busca-container">
+                <input type="text" id="buscaInput" placeholder="Pesquisar título...">
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="filtros-container">
+            <button class="btn-filtro active" data-cat="all">Todos</button>
+            <button class="btn-filtro" data-cat="Action">Ação</button>
+            <button class="btn-filtro" data-cat="Strategy">Estratégia</button>
+            <button class="btn-filtro" data-cat="RPG">RPG</button>
+            <button class="btn-filtro" data-cat="Shooter">FPS</button>
+        </div>
+
+        <section class="jogos" id="jogos">
+            <div class="jogos-grid" id="jogosGrid"></div> 
+        </section>
+
+        <div style="text-align: center; margin-top: 40px; margin-bottom: 60px;">
+            <button id="btnCarregarMais" class="btn-ver-mais" style="background: var(--primary); cursor: pointer; border: none;">
+                Carregar Mais Jogos
+            </button>
+        </div>
+
+        <section id="favoritos" class="container">
+            <h2>⭐ Seus Favoritos</h2>
+            <div class="jogos-grid" id="favoritosGrid"></div>
+        </section>
+    </main>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="fechar">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

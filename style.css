@@ -1,0 +1,317 @@
+:root {
+    --bg-dark: #020617;
+    --card-bg: #0f172a;
+    --primary: #a855f7;
+    --secondary: #22c55e;
+    --text-main: #f8fafc;
+    --text-dim: #94a3b8;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
+
+header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 10%; background: rgba(2, 6, 23, 0.8);
+    backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
+}
+
+.logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+
+nav a { margin-left: 2rem; text-decoration: none; color: var(--text-dim); transition: var(--transition); }
+nav a:hover { color: var(--secondary); }
+
+.hero {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background: linear-gradient(-45deg, #1e1b4b, #020617, #0f172a, #1e1b4b);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.busca-container input {
+    width: 300px; padding: 12px 20px; border-radius: 30px; border: 1px solid #334155;
+    background: #1e293b; color: white; outline: none; margin-top: 1.5rem;
+}
+
+.container { padding: 2rem 10%; }
+
+.filtros-container { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+
+.btn-filtro {
+    background: transparent; border: 1px solid #334155; color: var(--text-dim);
+    padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: var(--transition);
+}
+
+.btn-filtro.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* GRID VERTICAL */
+.jogos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+}
+
+.jogo-card {
+    position: relative;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.jogo-card:hover {
+    transform: translateY(-12px) scale(1.04);
+    box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
+}
+
+.jogo-card img {
+    width: 100%; height: 320px; object-fit: cover; border-radius: 8px;
+}
+
+.fav-btn.ativo { color: #facc15; }
+
+/* MODAL E BOTÃO VER MAIS */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; place-items: center; }
+.modal-content { background: var(--card-bg); padding: 2rem; border-radius: 20px; max-width: 450px; width: 90%; position: relative; text-align: center;}
+.fechar { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; cursor: pointer; }
+
+.btn-ver-mais {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 30px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-ver-mais:hover {
+    transform: scale(1.08);
+}
+
+/*melhorias*/
+/* Estado vazio */
+.empty-state {
+    text-align: center;
+    color: var(--text-dim);
+    margin-top: 2rem;
+}
+
+/* Fade suave */
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Botão favorito melhorado */
+.fav-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.6);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.fav-btn:hover {
+    transform: scale(1.2);
+}
+
+.fav-btn.ativo {
+    color: #facc15;
+}
+/*EFEITO GLASS*/
+header {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+/*efeito ao passar o mouse*/
+.jogo-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.1),
+        transparent
+    );
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.jogo-card:hover::before {
+    opacity: 1;
+}
+/*antes de carregar*/
+.skeleton {
+    height: 300px;
+    background: linear-gradient(90deg, #0f172a, #1e293b, #0f172a);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/*melhorias*/
+/* Glow no hover */
+.jogo-card:hover {
+    box-shadow: 0 0 30px rgba(168,85,247,0.4);
+}
+
+/* Scroll mais bonito */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#a855f7,#22c55e);
+    border-radius: 10px;
+}
+/*transição das paginas*/
+body {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+.page-transition {
+    position: fixed;
+    inset: 0;
+    background: #020617;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s;
+}
+
+.page-transition.active {
+    opacity: 1;
+}
+/* Garante que o grid de favoritos tenha o mesmo estilo */
+#favoritosGrid {
+    margin-top: 2rem;
+}
+
+/* Estilização interna dos cards para melhor leitura */
+.card-info {
+    padding: 15px;
+    background: linear-gradient(to top, var(--card-bg), transparent);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+}
+
+.jogo-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+.jogo-card p { font-size: 0.8rem; color: var(--text-dim); }
+
+/* Melhoria no Modal */
+.modal-content {
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+/* Layout da Página de Detalhes */
+.detalhes-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+#jogo-titulo {
+    font-size: 3.5rem;
+    background: linear-gradient(45deg, #fff, var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+.rating-badge {
+    display: inline-block;
+    background: rgba(34, 197, 94, 0.2);
+    color: var(--secondary);
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.secao-desc {
+    margin: 2rem 0;
+    line-height: 1.6;
+}
+
+/* RAWG envia parágrafos no texto, vamos formatar */
+#jogo-descricao p {
+    margin-bottom: 1rem;
+    color: var(--text-dim);
+}
+
+.info-adicional {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border-left: 4px solid var(--primary);
+}
+
+.info-adicional p {
+    margin: 5px 0;
+}
+
+/* Responsividade para tablets/telemóveis */
+@media (max-width: 900px) {
+    .detalhes-grid {
+        grid-template-columns: 1fr;
+    }
+    #jogo-titulo {
+        font-size: 2.5rem;
+    }
+}
+#jogo-descricao {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#btnCarregarMais {
+    transition: var(--transition);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+    padding: 15px 40px;
+}
+
+#btnCarregarMais:hover {
+    background: var(--secondary) !important; /* Muda de roxo para verde no hover */
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+}
+
+#btnCarregarMais:active {
+    transform: scale(0.95);
+}
